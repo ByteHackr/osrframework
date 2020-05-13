@@ -24,29 +24,26 @@ __version__ = "3.0"
 from osrframework.utils.platforms import Platform
 
 
-class Taringa(Platform):
+class Colourlovers(Platform):
     """<Platform> class"""
     def __init__(self):
-        """Constructor with parameters
+        self.platformName = "Colourlovers"
+        self.tags = ["art"]
 
-        This method permits the developer to instantiate dinamically Platform
-        objects."""
-        self.platformName = "taringa"
-        self.tags = ["social"]
         self.modes = {
             "usufy": {
-                "debug": False,
+                "debug": True,
                 "extra_fields": {
-                    "com.i3visio.Name": '<h2>([^<]+)</h2>',
-                    "com.i3visio.Name": '"firstname":"([^"]+)"',
-                    "com.i3visio.Surname": '"lastname":"([^"]+)"',
-                    "com.i3visio.BirthDate": '"birthday":"([^"]+)"',
-                    "com.i3visio.Gender": '"gender":"([^"]+)"',
-                    "com.i3visio.Country": '"country":"([^"]+)"'
+                    "com.i3visio.Location.Country": '<span itemprop="addressCountry" class="profile-location-name">[\n]? +(.+)\n',    # Regular expresion to extract the alias
+                    "com.i3visio.Location.City": '<span class="PageProfile-info-locality" itemprop="addressLocality">([^<]+)</span>',    # Regular expresion to extract the alias
                 },
                 "needs_credentials": False,
-                "not_found_text": '"firstname":"Taringa!"',
-                "query_validator": "[a-z0-9A-Z_]+",
-                "url": "https://www.taringa.net/{placeholder}",
+                "not_found_text": "<h4>No one's home</h4>",                   # Text that indicates a missing profile
+                "query_validator": "[a-zA-Z0-9_]{3,15}",                            # Regular expression that the alias SHOULD match
+                "url": "https://www.colourlovers.com/lover/{placeholder}",       # Target URL where {placeholder} would be modified by the alias
+                "test": {
+                    "valid": "james",
+                    "inavlid": "7ddf32e17a6ac5"
+                }
             }
         }
